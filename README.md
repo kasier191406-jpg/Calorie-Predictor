@@ -1,80 +1,166 @@
 # Calorie Burn Prediction
 
-A machine learning project that predicts calories burned based on input features using a trained regression model.
+A machine learning project that predicts calories burned during exercise using physiological and activity-related features.
 
-## Project Overview
+## Overview
 
-This project explores a machine learning workflow for predicting calorie expenditure from input data.
+This project uses a Linear Regression model to predict the number of calories burned based on:
 
-The project includes:
+- Age
+- Height
+- Weight
+- Exercise Duration
+- Heart Rate
+- Body Temperature
+- Gender
 
-- Data preprocessing
-- Feature preparation
-- Model training
-- Model evaluation
-- Trained model serialization using Pickle
-- Jupyter Notebook for experimentation and analysis
+The dataset contains **15,000 samples**.
 
-## Files
+## Machine Learning Workflow
 
 ```text
+Dataset
+   ↓
+Data exploration
+   ↓
+Feature preprocessing
+   ↓
+Gender encoding
+   ↓
+Train / Test Split
+   ↓
+Linear Regression
+   ↓
+Prediction
+   ↓
+Model Evaluation
+   ↓
+Save trained model
+
+
+Dataset
+
+The dataset contains the following columns:
+
+Feature	Description
+User_ID	Unique user identifier
+Gender	Gender of the user
+Age	Age of the user
+Height	Height of the user
+Weight	Weight of the user
+Duration	Exercise duration
+Heart_Rate	Heart rate during exercise
+Body_Temp	Body temperature
+Calories	Calories burned — target variable
+
+The User_ID column was removed because it does not provide useful predictive information.
+
+Preprocessing
+
+The Gender feature was converted from categorical values into numerical values using LabelEncoder.
+
+The target variable is:
+
+Calories
+
+The input features are:
+
+Age
+Height
+Weight
+Duration
+Heart_Rate
+Body_Temp
+Gender
+
+The data was split into:
+
+80% training data
+20% testing data
+
+with:
+
+random_state=42
+Model
+
+The project uses:
+
+Linear Regression
+
+from sklearn.linear_model import LinearRegression
+
+
+model = LinearRegression()
+model.fit(X_train, y_train)
+Results
+
+The model was evaluated on the test set.
+
+Metric	Result
+RMSE	11.4889
+R² Score	0.9673
+
+An R² score of approximately 0.967 means the model explains a large proportion of the variation in the test-set target values.
+
+Model Coefficients
+
+The trained model produced the following coefficients:
+
+Age          →   0.5015
+Height       →  -0.1697
+Weight       →   0.2863
+Duration     →   6.6280
+Heart Rate   →   1.9909
+Body Temp    → -16.9425
+Gender       →  -1.3742
+
+The model intercept is:
+
+461.8627
+Saved Model
+
+The trained model is saved using Joblib:
+
+calorie_predictor.pkl
+
+It can be loaded later without retraining:
+
+import joblib
+
+
+model = joblib.load("calorie_predictor.pkl")
+Project Files
 Calorie-Predictor/
 ├── calorie.ipynb
 ├── calorie_predictor.pkl
 ├── calories.csv
 └── README.md
-
-
-
 calorie.ipynb
 
-Jupyter Notebook containing the data analysis, preprocessing, model training, and evaluation workflow.
+Contains the complete data exploration, preprocessing, training, prediction, and evaluation workflow.
 
 calorie_predictor.pkl
 
-Serialized trained machine learning model that can be loaded later for making predictions without retraining the model.
+Contains the trained Linear Regression model.
 
 calories.csv
 
-Dataset used for training and evaluating the model.
+Dataset used for the project.
 
 Technologies
 Python
-NumPy
 pandas
+NumPy
 scikit-learn
+Matplotlib
+Joblib
 Jupyter Notebook
-Pickle
-Machine Learning Workflow
-Dataset
-   ↓
-Data preprocessing
-   ↓
-Feature preparation
-   ↓
-Train / test split
-   ↓
-Model training
-   ↓
-Prediction
-   ↓
-Model evaluation
-   ↓
-Save trained model
-Model
-
-The trained model is saved as:
-
-calorie_predictor.pkl
-
-This allows the trained model to be loaded later without repeating the training process.
-
 Running the Project
-1. Clone the repository
+Clone the repository
 git clone https://github.com/kasier191406-jpg/Calorie-Predictor.git
-2. Install dependencies
-pip install numpy pandas scikit-learn jupyter
-3. Start Jupyter Notebook
+Install dependencies
+pip install pandas numpy matplotlib scikit-learn joblib jupyter
+Open the notebook
 jupyter notebook
 
 Open:
@@ -83,25 +169,13 @@ calorie.ipynb
 
 and run the notebook cells.
 
-Loading the Trained Model
-
-The saved model can be loaded using Python's pickle module:
-
-import pickle
-
-
-with open("calorie_predictor.pkl", "rb") as file:
-    model = pickle.load(file)
-
-The loaded model can then be used to generate predictions from appropriately prepared input data.
-
 Future Improvements
-Improve model performance through feature engineering
-Compare multiple regression algorithms
-Add more comprehensive evaluation metrics
-Create a prediction API
+Compare Linear Regression with other regression algorithms
+Perform feature engineering
+Add cross-validation
+Build a prediction API
 Deploy the trained model
-Integrate the model with a Spring Boot backend
+Integrate the model into a larger application
 Author
 
 Kasier
